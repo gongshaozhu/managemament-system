@@ -11,12 +11,12 @@
     :collapse-transition="false"
   >
 <!--<M v-for="item in menuList" :key="item.label" :data="item"></M>-->
-    <Menu :data="menuList"></Menu>
+    <MenuItem :data="menuList"></MenuItem>
   </el-menu>
 </template>
 
 <script>
-import Menu from './MenuItem.vue'
+import MenuItem from './MenuItem.vue'
 // import M from './M.vue'
 export default {
   name: 'MenuP',
@@ -28,27 +28,41 @@ export default {
           value: 'form',
           label: '表单系列',
           children: [
-            {
+            /*{
               value: 'multiFormCheck',
               label: '多表单校验',
               children: [
-                {
-                  value: 'form1',
-                  label: '表单1',
-                  path: 'home',
-                },
-                {
-                  value: 'form2',
-                  label: '表单2',
-                  path: '/home1',
-                }
-              ]
+            },*/
+            {
+              value: 'form1',
+              label: '表单1',
+              path: 'home',
+            },
+            {
+              value: 'form2',
+              label: '表单2',
+              path: '/home1',
             },
             {
               value: 'loopForm',
-              label: '循环表单',
+              label: '循环表单1',
               path: '/home2',
-            }
+            },
+            {
+              value: 'loopForm2',
+              label: '循环表单2',
+              path: '/home2',
+            },
+            {
+              value: 'loopForm3',
+              label: '循环表单3',
+              path: '/home2',
+            },
+            {
+              value: 'loopForm4',
+              label: '循环表单4',
+              path: '/home2',
+            },
           ]
         },
         {
@@ -67,7 +81,7 @@ export default {
     }
   },
   components: {
-    Menu
+    MenuItem
   },
   mounted () {
   },

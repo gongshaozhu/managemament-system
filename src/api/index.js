@@ -7,5 +7,4 @@ files.keys().forEach(key => {
     modules[filename] = files(key).default
   }
 })
-
 export default modules

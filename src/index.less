@@ -25,13 +25,14 @@ html, body {
   transform: translateX(10px);
 }
 
-.hideMenu {
+.hideMenu, .isTransition {
   .el-submenu__title {
     span {
-      display: none;
+      display: none !important;
     }
+
     .el-submenu__icon-arrow {
-      display: none;
+      display: none !important;
     }
   }
 }

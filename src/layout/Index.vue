@@ -1,12 +1,14 @@
 <template>
   <div class="home">
-    <div class="home-head" @click="collapse = !collapse">
+    <div class="home-head" @click="handleCollapse">
       <span></span>
       <span>user</span>
     </div>
     <div class="main-content">
       <div
-        class="nav-menu" :class="[collapse ? 'hideMenu' : 'show-menu']"
+        id="nav-menu"
+        class="nav-menu"
+        :class="[collapse ? 'hideMenu' : 'show-menu', isTransition ? 'isTransition' : '']"
         :style="{'flex-basis': collapse ? '64px': '230px'}"
       >
         <Menu :collapse="collapse"/>
@@ -28,11 +30,22 @@ export default {
   name: 'HomeView',
   data () {
     return {
-      collapse: false
+      collapse: false,
+      isTransition: false
     }
   },
   components: {
     Menu,
+  },
+  methods: {
+    handleCollapse () {
+      this.collapse = !this.collapse
+      this.isTransition = true
+      const timer = setTimeout(() => {
+        this.isTransition = false
+        clearTimeout(timer)
+      }, 30)
+    }
   }
 }
 </script>
