@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import api from './api'
+import '@/components/svg-icon'
 import './plugins'
 import './index.less'
 

@@ -54,9 +54,14 @@ const routes = [
     component: Login
   },
   {
-    path: '*',
+    path: '/404',
     name: 'p404',
     component: Page404
+  },
+  {
+    path: '*',
+    name: 'others',
+    redirect: '/404'
   },
 ]
 // asyncRoutes
