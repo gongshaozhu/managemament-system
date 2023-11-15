@@ -36,7 +36,7 @@ export default {
             {
               value: 'form1',
               label: '表单1',
-              path: 'home',
+              path: '/home',
             },
             {
               value: 'form2',
@@ -83,9 +83,24 @@ export default {
   components: {
     MenuItem
   },
+  watch: {
+  },
   mounted () {
+    this.filterMenuValue(this.menuList)
   },
   methods: {
+    filterMenuValue (treeList) {
+      treeList.forEach(v => {
+        const { path } = this.$route
+        if (v.path === path) {
+          this.defaultActive = v.value
+          return
+        }
+        if (v.children && v.children.length) {
+          this.filterMenuValue(v.children)
+        }
+      })
+    }
   }
 }
 </script>
