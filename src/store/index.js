@@ -5,7 +5,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    role: [1001, 1003]
+    role: [1001, 1002, 1003]
   },
   getters: {
   },

@@ -11,7 +11,7 @@ server.use(jsonServer.bodyParser)
 server.post('/comments1', (req, res) => {
   // const post = req.body;
   // post.id = Date.now();
-  // router.db.get('comments').push(post).write();
+  // router.db.get('comments').push(post).write()
   const data = Mock.mock({
     // 属性 list 的值是一个数组，其中含有 1 到 10 个元素
     'list|1-1000': [{
@@ -21,7 +21,7 @@ server.post('/comments1', (req, res) => {
       'image': Mock.Random.image('100*100')
     }]
   })
-  res.json({post: data});
+  res.json({post: data})
 });
 server.use(router)
 server.listen(5200, () => {

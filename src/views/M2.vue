@@ -6,7 +6,11 @@
 
 <script>
 export default {
-  name: 'M2F'
+  name: 'M2F',
+  data() {
+    return {
+    }
+  }
 }
 </script>
 

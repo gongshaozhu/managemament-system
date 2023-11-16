@@ -1,6 +1,8 @@
 <template>
   <div>
-    <img v-for="v in list" :key="v.id" :src="v.image" alt="">
+    home
+    <el-button>Module</el-button>
+<!--    <img v-for="v in list" :key="v.id" :src="v.image" alt="">-->
   </div>
 </template>
 
@@ -9,7 +11,7 @@ export default {
   name: 'M1F',
   data() {
     return {
-      list: []
+      list: [],
     }
   },
   async mounted () {
@@ -18,6 +20,8 @@ export default {
     const b = await this.$api.a.getHomePost()
     this.list = b.data.post.list
     console.log('mock-demo', b.data.post.list)
+  },
+  methods: {
   }
 }
 </script>

@@ -8,6 +8,7 @@ import NProgress from 'nprogress' // progress bar
 import 'nprogress/nprogress.css' // progress bar style
 import store from '@/store'
 Vue.use(VueRouter)
+console.log(NProgress.configure)
 NProgress.configure({ showSpinner: false }) // NProgress Configuration
 
 const routes = [
@@ -30,7 +31,7 @@ const routes = [
         name: 'home2',
         component: () => import(/* webpackChunkName: "M2" */ '@/views/M2.vue'),
         meta: {
-          auth: [10023]
+          auth: [1002]
         }
       },
       {
