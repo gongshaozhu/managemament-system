@@ -9,8 +9,8 @@ export default {
   name: 'app',
   components: {
   },
-  mounted () {
-
+  mounted() {
+    console.log(this.$store.state)
   }
 }
 </script>

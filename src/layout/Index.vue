@@ -56,7 +56,6 @@ export default {
       }, 30)
     },
     handleOut () {
-      console.log(11)
       localStorage.removeItem('token')
       this.$router.push('/login')
     }

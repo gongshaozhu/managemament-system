@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const instance = axios.create({
-  baseURL: '',
+  baseURL: 'http://localhost:5200/',
   headers: {
     'content-type': 'application/json' // // application/x-www-form-urlencoded
   },

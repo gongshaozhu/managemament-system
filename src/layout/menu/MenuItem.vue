@@ -9,7 +9,7 @@
           <i class="el-icon-menu"></i>
           <span slot="title">{{item.label}}</span>
         </template>
-        <MenuItem :data="item.children"></MenuItem>
+        <MenuItem :data="item.children"/>
       </el-submenu>
       <el-menu-item v-else :index="item.value" :route="item.path">
         <i class="el-icon-menu"></i>
