@@ -47,15 +47,17 @@ module.exports = defineConfig({
     }).end()
   },
   configureWebpack: () => {
-    return {
-      plugins: [
-        new BundleAnalyzerPlugin({
-          analyzerMode: 'static',
-          generateStatsFile: true,
-          statsFilename: 'stats.json',
-          openAnalyzer: false
-        })
-      ]
+    if (process.env.NODE_ENV !== 'development') {
+      return {
+        plugins: [
+          new BundleAnalyzerPlugin({
+            analyzerMode: 'static',
+            generateStatsFile: true,
+            statsFilename: 'stats.json',
+            openAnalyzer: false
+          })
+        ]
+      }
     }
   }
 })
