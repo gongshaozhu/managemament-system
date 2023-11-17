@@ -8,7 +8,7 @@ import NProgress from 'nprogress' // progress bar
 import 'nprogress/nprogress.css' // progress bar style
 import store from '@/store'
 Vue.use(VueRouter)
-console.log(NProgress.configure)
+
 NProgress.configure({ showSpinner: false }) // NProgress Configuration
 
 const routes = [
