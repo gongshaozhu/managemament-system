@@ -4,6 +4,7 @@
       <svg-icon icon-class="404"></svg-icon>
       Not Found
     </h6>
+    <el-button type="primary" @click="handleBack">返回</el-button>
   </div>
 </template>
 
@@ -13,7 +14,10 @@ export default {
   data () {
     return {}
   },
-  mounted () {
+  methods: {
+    handleBack() {
+      this.$router.back()
+    }
   }
 }
 </script>
@@ -25,6 +29,7 @@ export default {
   justify-content: center;
   align-items: center;
   font-size: 30px;
+  flex-direction: column;
   h6 {
     display: flex;
     align-items: center;
