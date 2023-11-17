@@ -1,5 +1,7 @@
 const { defineConfig } = require('@vue/cli-service')
 const path = require("path");
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+
 function resolve(dir) {
   return path.join(__dirname, dir)
 }
@@ -32,7 +34,7 @@ module.exports = defineConfig({
         symbolId: 'icon-[name]'
       })
       .end()
-    /*config
+    config
       .optimization.splitChunks({
       chunks: 'all',
       cacheGroups: {
@@ -42,6 +44,18 @@ module.exports = defineConfig({
           test: /[\\/]node_modules[\\/]_?element-ui(.*)/
         },
       }
-    }).end()*/
+    }).end()
+  },
+  configureWebpack: () => {
+    return {
+      plugins: [
+        new BundleAnalyzerPlugin({
+          analyzerMode: 'static',
+          generateStatsFile: true,
+          statsFilename: 'stats.json',
+          openAnalyzer: false
+        })
+      ]
+    }
   }
 })

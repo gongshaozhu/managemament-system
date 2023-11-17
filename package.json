@@ -3,10 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "mock": "node src/mock/mock-server.js",
     "serve": "vue-cli-service serve",
-    "dev": "concurrently \"npm run mock\" \"vue-cli-service serve\"",
-    "build": "vue-cli-service build",
+    "mock": "node src/mock/mock-server.js",
+    "serve:mock": "concurrently \"npm run mock\" \"vue-cli-service serve\"",
+    "build": "vue-cli-service build --mode prod",
+    "build:prod": "vue-cli-service build --mode prod",
+    "build:stage": "vue-cli-service build --mode staging",
+    "build:test": "vue-cli-service build --mode test",
+    "analyze": "vue-cli-service build && serve -s dist/report.html",
     "svgo": "svgo -f src/icons/svg --config=src/icons/svgo.yml",
     "preview": "vue-cli-service build && serve -s dist/",
     "lint": "vue-cli-service lint"
@@ -39,6 +43,7 @@
     "eslint-plugin-vue": "^8.0.3",
     "less": "^4.0.0",
     "less-loader": "^8.0.0",
-    "vue-template-compiler": "^2.6.14"
+    "vue-template-compiler": "^2.6.14",
+    "webpack-bundle-analyzer": "^4.10.1"
   }
 }
