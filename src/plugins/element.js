@@ -17,5 +17,5 @@ Vue.use(MenuItem)
 Vue.use(Submenu)
 Vue.use(Dropdown)
 Vue.use(DropdownItem)
-Vue.use(DropdownMenu)
+Vue.use(DropdownMenu) //
 Vue.prototype.$ELEMENT = { size: 'small', zIndex: 3000 };

@@ -8,15 +8,15 @@ function resolve(dir) {
 module.exports = defineConfig({
   transpileDependencies: true,
   devServer: {
-    proxy: {
-      // '/api': {
-      //   target: 'http://localhost:5200', // 代理目标的地址
-      //   changeOrigin: true,
-      //   pathRewrite: {
-      //     '^/api': ''
-      //   }
-      // }
-    }
+    // proxy: {
+    //   '/api': {
+    //     target: 'http://localhost:3000', // 代理目标的地址
+    //     changeOrigin: true,
+    //     pathRewrite: {
+    //       '^/api': ''
+    //     }
+    //   }
+    // }
   },
   chainWebpack(config) {
     config.module
