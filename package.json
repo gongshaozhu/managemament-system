@@ -20,6 +20,7 @@
     "@wangeditor/editor-for-vue": "^1.0.2",
     "axios": "^1.6.1",
     "babel-plugin-component": "^1.1.1",
+    "better-scroll": "^2.5.1",
     "concurrently": "^8.2.2",
     "core-js": "^3.8.3",
     "element-ui": "^2.15.13",

@@ -15,13 +15,17 @@
         @onCreated="onCreated"
       />
     </div>
+    <div>
+      <el-button @click="fdgd">get</el-button>
+    </div>
   </div>
 </template>
 
 <script>
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
+
 export default {
-  name: 'wangEditor',
+  name: 'M1',
   components: { Editor, Toolbar },
   data() {
     return {
@@ -39,7 +43,7 @@ export default {
         MENU_CONF: {
           uploadImage: {
             server: 'http://localhost:3000/cats/upload',
-            maxFileSize: 1 * 1024 * 10241,
+            maxFileSize: 1024 * 10241,
             // base64LimitSize: 5 * 10243333,
             fieldName: 'file',
             maxNumberOfFiles: 1,
@@ -54,17 +58,20 @@ export default {
     }
   },
   methods: {
+    fdgd () {
+      console.log(this.html)
+    },
     onCreated(editor) {
       this.editor = Object.seal(editor) // 一定要用 Object.seal() ，否则会报错
     },
   },
   mounted() {
-    // 模拟 ajax 请求，异步渲染编辑器
-    setTimeout(() => {
-      console.log(this.editor.getConfig())
-
-      this.html = '<p>模拟 Ajax 异步设置内容 HTML</p>'
-    }, 1500)
+    // // 模拟 ajax 请求，异步渲染编辑器
+    // setTimeout(() => {
+    //   console.log(this.editor.getConfig())
+    //
+    //   this.html = '<p>模拟 Ajax 异步设置内容 HTML</p>'
+    // }, 1500)
   },
   beforeDestroy() {
     const editor = this.editor
@@ -72,24 +79,6 @@ export default {
     editor.destroy() // 组件销毁时，及时销毁编辑器
   }
 }
-/*
-export default {
-  name: 'M1F',
-  data() {
-    return {
-      list: [],
-    }
-  },
-  async mounted () {
-    const a = await this.$api.a.getHome()
-    console.log('mock-demo', a)
-    const b = await this.$api.a.getHomePost()
-    this.list = b.data.post.list
-    console.log('mock-demo', b.data.post.list)
-  },
-  methods: {
-  }
-}*/
 </script>
 
 <style lang="less" scoped>

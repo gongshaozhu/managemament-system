@@ -11,7 +11,11 @@
         </template>
         <MenuItem :data="item.children"/>
       </el-submenu>
-      <el-menu-item v-else :index="item.value" :route="item.path">
+      <el-menu-item
+        v-else
+        :index="item.value"
+        @click.native="handleSelect(item)"
+      >
         <i class="el-icon-menu"></i>
         <span slot="title">{{item.label}}</span>
       </el-menu-item>
@@ -28,6 +32,19 @@ export default {
       default: () => []
     }
   },
+  methods: {
+    handleSelect (v) {
+      if (this.$route.path === v.path) return
+      if (v.componentName) {
+        const { keepAliveRoutes } = this.$store.state
+        const has = keepAliveRoutes.filter(k => k.componentName === v.componentName).length
+        if (!has) {
+          this.$store.commit('addKeepAliveRoutes', v)
+        }
+      }
+      this.$router.push(v.path)
+    }
+  }
 }
 
 </script>

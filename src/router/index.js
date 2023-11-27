@@ -1,12 +1,19 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeView from '@/layout/Index.vue'
-
 import Login from '@/views/Login.vue'
 import Page404 from '@/views/404.vue'
 import NProgress from 'nprogress' // progress bar
 import 'nprogress/nprogress.css' // progress bar style
 import store from '@/store'
+const originalPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err)
+}
+const originalReplace = VueRouter.prototype.replace
+VueRouter.prototype.replace = function replace(location) {
+  return originalReplace.call(this, location).catch(err => err)
+}
 Vue.use(VueRouter)
 
 NProgress.configure({ showSpinner: false }) // NProgress Configuration
@@ -48,7 +55,7 @@ const routes = [
         component: () => import(/* webpackChunkName: "Refuse" */ '@/views/Refuse.vue')
       },
     ]
-  },
+  },//
   {
     path: '/login',
     name: 'login',

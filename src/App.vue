@@ -10,7 +10,6 @@ export default {
   components: {
   },
   mounted() {
-    console.log(this.$store.state)
   }
 }
 </script>
