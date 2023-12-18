@@ -9,7 +9,7 @@
       label-position="left"
     >
       <div class="title-container">
-        <h3 class="title">中台管理系统</h3>
+        <h3 class="title">订单管理系统</h3>
       </div>
       <el-form-item prop="username" style="margin-bottom: 30px;">
         <span class="svg-container">
@@ -80,7 +80,7 @@ export default {
     return {
       loginForm: {
         username: 'admin',
-        password: '111111'
+        password: '123456'
       },
       loginRules: {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
@@ -109,11 +109,20 @@ export default {
       })
     },
     handleLogin() {
-      this.$refs.loginForm.validate(valid => {
+      this.$refs.loginForm.validate(async (valid) => {
         if (valid) {
           this.loading = true
-          localStorage.setItem('token', 1)
-          this.$router.push('/')
+          try {
+            const res = await this.$api.auth.login(this.loginForm)
+            localStorage.setItem('token', `${res.tokenHead}${res.token}`)
+            // Cookies.set('name', 'value', { expires: 7 }) js-Cookies
+            await this.$router.push('/')
+            this.loading = false
+          } catch (e) {
+            this.loading = false
+            console.log(e)
+          }
+          // this.$router.push('/')
         } else {
           console.log('error submit!!')
           return false

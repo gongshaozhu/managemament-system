@@ -6,7 +6,7 @@
         :index="`${item.value}${item.label}`"
       >
         <template slot="title">
-          <i class="el-icon-menu"></i>
+          <i :class="[item.icon || 'el-icon-s-order']"></i>
           <span slot="title">{{item.label}}</span>
         </template>
         <MenuItem :data="item.children"/>
@@ -16,7 +16,7 @@
         :index="item.value"
         @click.native="handleSelect(item)"
       >
-        <i class="el-icon-menu"></i>
+        <i :class="[item.icon || 'el-icon-s-order']"></i>
         <span slot="title">{{item.label}}</span>
       </el-menu-item>
     </div>

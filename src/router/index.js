@@ -22,15 +22,23 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    redirect: '/home',
+    redirect: '/sale-goods',
     component: HomeView,
     children: [
       {
-        path: 'home',
-        name: 'home1',
-        component: () => import(/* webpackChunkName: "M1" */ '@/views/M1.vue'),
+        path: 'sale-goods',
+        name: 'SaleGoods',
+        component: () => import(/* webpackChunkName: "SaleGoods" */ '@/views/order_manage/AllOrder.vue'),
         meta: {
-          auth: [1001]
+          auth: []
+        }
+      },
+      {
+        path: 'my-order',
+        name: 'MyOrder',
+        component: () => import(/* webpackChunkName: "MyOrder" */ '@/views/order_manage/MyOrder.vue'),
+        meta: {
+          auth: []
         }
       },
       {

@@ -49,7 +49,7 @@ export default {
             maxNumberOfFiles: 1,
             allowedFileTypes: ['image/*'],
             metaWithUrl: false,
-            withCredentials: true,
+            withCredentials: false,
             timeout: 5 * 1000, // 5 秒
           },
         }

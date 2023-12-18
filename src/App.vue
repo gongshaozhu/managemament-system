@@ -9,7 +9,18 @@ export default {
   name: 'app',
   components: {
   },
-  mounted() {
+  async mounted() {
+    /* const eventSource = new EventSource('http://localhost:3000/cats/sse');
+     eventSource.onmessage = ({ data }) => {
+       console.log('New message', data);
+     };
+     eventSource.onerror = () => {
+       console.log('error')
+     }
+     const b = await this.$api.a.getHome()
+     console.log(b)*/
+  },
+  methods: {
   }
 }
 </script>

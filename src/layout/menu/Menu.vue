@@ -16,12 +16,13 @@
 
 <script>
 import MenuItem from './MenuItem.vue'
+import MenuList from './menuList'
 // import M from './M.vue'
 export default {
   name: 'MenuP',
   data () {
     return {
-      defaultActive: 'form1',
+      defaultActive: 'SaleGoods',
       isCollapse: true
     }
   },
@@ -46,69 +47,38 @@ export default {
     MenuItem
   },
   created() {
-    const a = [
-      {
-        value: 'form',
-        label: '表单系列',
-        children: [
-          /*{
-            value: 'multiFormCheck',
-            label: '多表单校验',
-            children: [
-          },*/
-          {
-            value: 'form1',
-            label: '表单1',
-            path: '/home',
-            componentName: 'M1',
-            defaultActive: true,
-          },
-          {
-            value: 'form2',
-            label: '表单2',
-            path: '/home1',
-            componentName: 'M2',
-          },
-          {
-            value: 'loopForm',
-            label: '循环表单1',
-            path: '/home2',
-          },
-          {
-            value: 'loopForm2',
-            label: '循环表单2',
-            path: '/home2',
-          },
-          {
-            value: 'loopForm3',
-            label: '循环表单3',
-            path: '/home2',
-          },
-          {
-            value: 'loopForm4',
-            label: '循环表单4',
-            path: '/home2',
-          },
-        ]
-      },
-      {
-        value: 'secondaryPackageCom',
-        label: '封装组件',
-        path: '/home3'
-      }
-    ]
-    this.$store.commit('changeMenuList', a)
-    if (a[0] && !a[0].children) {
-      this.$store.commit('addKeepAliveRoutes', a[0])
-
+    const menu = MenuList
+    this.$store.commit('changeMenuList', menu)
+    if (menu[0] && !menu[0].children) {
+      this.$store.commit('addKeepAliveRoutes', menu[0])
     } else {
-      this.$store.commit('addKeepAliveRoutes', a[0].children[0])
+      this.$store.commit('addKeepAliveRoutes', menu[0].children[0])
     }
   },
-  mounted () {
+  async mounted () {
+    const res = await this.$api.auth.getUserInfo()
+    console.log(res)
+    /*const menus = this.handleTree(res.menus)
+    this.handleMenuName(menus)
+    // console.log(newMenus)
+    this.$store.commit('changeMenuList', menus)
+    if (menus[0] && !menus[0].children) {
+      this.$store.commit('addKeepAliveRoutes', menus[0])
+    } else {
+      this.$store.commit('addKeepAliveRoutes', menus[0].children[0])
+    }*/
     this.filterMenuValue(this.menuList)
   },
   methods: {
+    handleTree (data, parentId = '0') {
+      const tree = {};
+      data
+          .filter(item => item.parentId === parentId)
+          .forEach(item => {
+            tree[item.id] = { ...item, children: this.handleTree(data, item.id) };
+          });
+      return Object.values(tree);
+    },
     handleSelect (v) {
       if (this.$route.path === v.path) return
       if (v.componentName) {
@@ -137,8 +107,17 @@ export default {
         }
       })
     },
-    findDefaultHome () {
-
+    handleMenuName (value) {
+      value.forEach(v => {
+        v.componentName = v.name
+        v.label = v.title
+        v.path = `/${v.name}`
+        if (v.children && v.children.length) {
+          this.handleMenuName(v.children)
+        } else {
+          delete v.children
+        }
+      })
     }
   }
 }

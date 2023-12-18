@@ -34,7 +34,7 @@
             v-for="(v, i) in needKeepAliveRoutes"
             :key="v.path"
           >
-            {{ v.value }} <i v-if="i!==0" class="el-icon-close" @click="handleClearKeepAlive(v)"></i>
+            {{ v.label }} <i v-if="i!==0" class="el-icon-close" @click="handleClearKeepAlive(v)"></i>
           </span>
         </div>
       </div>
@@ -249,6 +249,8 @@ export default {
       padding: 16px;
       box-sizing: border-box;
       overflow-y: auto;
+      display: flex;
+      flex-direction: column;
     }
   }
 }
