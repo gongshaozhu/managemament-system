@@ -16,5 +16,7 @@ export default {
   async deleteStatus (data) {
      return await post('/product/update/deleteStatus', data)
   },
-
+  async orderDetail (id) {
+     return await get(`/order/${id}`)
+  },
 }

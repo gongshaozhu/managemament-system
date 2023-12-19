@@ -35,12 +35,11 @@
         </el-table-column>
         <el-table-column
           prop="name"
-          label="商品名称"
-          width="180">
+          label="商品名称">
         </el-table-column>
         <el-table-column
           prop="price"
-          label="金额">
+          label="金额(￥)">
         </el-table-column>
         <el-table-column
           prop="publishStatus"
@@ -53,27 +52,27 @@
           prop="createBy"
           label="销售">
         </el-table-column>
-        <el-table-column
+<!--        <el-table-column
           prop="address"
           label="浏览人数">
         </el-table-column>
         <el-table-column
           prop="address"
           label="支付人数">
-        </el-table-column>
+        </el-table-column>-->
         <el-table-column
           prop="address"
           fixed="right"
           width="130"
           label="操作">
           <template slot-scope="scope">
-            <el-popconfirm
+<!--            <el-popconfirm
               title="确定删除吗？"
               @confirm="handleDel(scope.row)"
             >
               <el-button type="text" slot="reference">删除</el-button>
             </el-popconfirm>
-            <el-divider direction="vertical"></el-divider>
+            <el-divider direction="vertical"></el-divider>-->
             <el-button type="text" @click="handleLink(scope.row)">专属链接</el-button>
           </template>
         </el-table-column>
@@ -101,7 +100,7 @@
       <div class="qr-content">
         <div class="qrcode">
           <canvas ref="canvas" id="canvas"></canvas>
-          <div style="display: flex;align-items: center;justify-content: center; width: 350px">
+          <div>
             <el-input style="width: 250px" v-model="link[0]" disabled></el-input>
             <span>
               <button
@@ -131,13 +130,11 @@ export default {
     return {
       tab: 'all',
       dialogVisible: false,
-      currentPage: 1,
-      loading: false,
-      total: 0,
       goodsCategory: [{
         name: '全部',
         id: '',
       }],
+      link: ['434365', ''],
       searchData: {
         pageNum: 1,
         pageSize: 10,
@@ -145,7 +142,9 @@ export default {
         productCategoryId: '',
       },
       tableData: [],
-      link: ['434365', ''],
+      currentPage: 1,
+      loading: false,
+      total: 0,
     }
   },
   mixins: [tableHeight],
@@ -178,10 +177,8 @@ export default {
       this.searchData = {
         pageNum: 1,
         pageSize: 10,
-        user: '',
-        user1: '',
-        user3: '',
-        region: ''
+        keyword: '',
+        productCategoryId: '',
       }
       this.total = 0
       this.handleList()
@@ -190,8 +187,9 @@ export default {
       this.searchData.pageNum = v
       this.handleList()
     },
-    handleSizeChange() {
-      console.log('submit!');
+    handleSizeChange(v) {
+      this.searchData.pageSize = v
+      this.handleSearch()
     },
     async handleLink(v) {
       try {
@@ -202,7 +200,7 @@ export default {
           QRCode.toCanvas(document.getElementById('canvas'), 'https://www.baidu.com',{
             width: 300,
             height: 300,
-            margin: 2,
+            margin: 0,
           }, (error) => {
             if (error) console.error(error)
           })
@@ -268,6 +266,10 @@ export default {
   }
   .qrcode {
     height: 300px;
+    > div {
+      margin-top: 10px;
+      width: 300px
+    }
   }
   #clip1 {
     cursor: pointer;
@@ -279,11 +281,13 @@ export default {
   }
   .qr-content{
     display: flex;
+    flex-direction: column;
     >div {
       flex-direction: column;
       flex: 1;
-      justify-content: flex-start;
+      justify-content: center;
       display: flex;
+      align-items: center;
     }
   }
 }

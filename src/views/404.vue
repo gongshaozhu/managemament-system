@@ -4,7 +4,7 @@
       <svg-icon icon-class="404"></svg-icon>
       Not Found
     </h6>
-    <el-button type="primary" @click="handleBack">返回</el-button>
+    <el-button type="primary" @click="handleBack">去首页</el-button>
   </div>
 </template>
 
@@ -16,7 +16,7 @@ export default {
   },
   methods: {
     handleBack() {
-      this.$router.back()
+      this.$router.push('/')
     }
   }
 }

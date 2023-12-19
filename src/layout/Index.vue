@@ -18,7 +18,7 @@
         </div>
         <el-dropdown>
         <span class="el-dropdown-link" style="cursor: pointer">
-          <span>admin</span><i class="el-icon-arrow-down el-icon&#45;&#45;right"></i>
+          <span>{{ userInfo ? userInfo.username : '' }}</span><i class="el-icon-arrow-down el-icon&#45;&#45;right"></i>
         </span>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item @click.native="handleOut">退出</el-dropdown-item>
@@ -65,6 +65,9 @@ export default {
     Menu,
   },
   computed: {
+    userInfo () {
+      return this.$store.state.userInfo
+    },
     needKeepAlive () {
       const { keepAliveRoutes } = this.$store.state
       const componentNames = keepAliveRoutes.map(v => v.componentName)

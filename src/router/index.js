@@ -22,23 +22,23 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    redirect: '/sale-goods',
+    redirect: '/SaleGoods',
     component: HomeView,
     children: [
       {
-        path: 'sale-goods',
+        path: 'SaleGoods',
         name: 'SaleGoods',
         component: () => import(/* webpackChunkName: "SaleGoods" */ '@/views/order_manage/AllOrder.vue'),
         meta: {
-          auth: []
+          auth: ['SaleGoods']
         }
       },
       {
-        path: 'my-order',
+        path: 'MyOrder',
         name: 'MyOrder',
         component: () => import(/* webpackChunkName: "MyOrder" */ '@/views/order_manage/MyOrder.vue'),
         meta: {
-          auth: []
+          auth: ['MyOrder']
         }
       },
       {
@@ -91,7 +91,7 @@ export const hasPermission = (authArr) => {
   return store.state.role.some(v => authArr.includes(v))
 }
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   NProgress.start()
   const token = localStorage.getItem('token')
   if (!token && to.path !== '/login') {
@@ -105,7 +105,12 @@ router.beforeEach((to, from, next) => {
       (to.meta.auth && to.meta.auth.length === 0)) {
       next()
     } else {
-      next('/permission-refused')
+      if (from.path === '/') {
+        await store.dispatch('getInfo')
+        hasPermission(to.meta.auth) ? next() : next('/404')
+      } else {
+        next('/404')
+      }
     }
   }
   // NProgress.done()

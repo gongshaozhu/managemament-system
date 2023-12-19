@@ -16,7 +16,7 @@
 
 <script>
 import MenuItem from './MenuItem.vue'
-import MenuList from './menuList'
+// import MenuList from './menuList'
 // import M from './M.vue'
 export default {
   name: 'MenuP',
@@ -47,26 +47,30 @@ export default {
     MenuItem
   },
   created() {
-    const menu = MenuList
+    /*const menu = MenuList
     this.$store.commit('changeMenuList', menu)
     if (menu[0] && !menu[0].children) {
       this.$store.commit('addKeepAliveRoutes', menu[0])
     } else {
       this.$store.commit('addKeepAliveRoutes', menu[0].children[0])
-    }
+    }*/
   },
   async mounted () {
     const res = await this.$api.auth.getUserInfo()
-    console.log(res)
-    /*const menus = this.handleTree(res.menus)
+    const roleAuth = []
+    res.menus.forEach(v => {
+      roleAuth.push(v.name)
+    })
+    const menus = this.handleTree(res.menus)
     this.handleMenuName(menus)
-    // console.log(newMenus)
+    this.$store.commit('changeUserInfo', res)
+    this.$store.commit('changeRoleAuth', roleAuth)
     this.$store.commit('changeMenuList', menus)
     if (menus[0] && !menus[0].children) {
       this.$store.commit('addKeepAliveRoutes', menus[0])
     } else {
       this.$store.commit('addKeepAliveRoutes', menus[0].children[0])
-    }*/
+    }
     this.filterMenuValue(this.menuList)
   },
   methods: {
@@ -111,6 +115,7 @@ export default {
       value.forEach(v => {
         v.componentName = v.name
         v.label = v.title
+        v.value = v.name
         v.path = `/${v.name}`
         if (v.children && v.children.length) {
           this.handleMenuName(v.children)
