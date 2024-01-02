@@ -10,6 +10,11 @@ export default {
   components: {
   },
   async mounted() {
+    /*const res = await this.$api.auth.listAll({
+      pageNum: 1,
+      pageSize: 10,
+    })
+    console.log(res)*/
     /* const eventSource = new EventSource('http://localhost:3000/cats/sse');
      eventSource.onmessage = ({ data }) => {
        console.log('New message', data);

@@ -19,4 +19,7 @@ export default {
   async orderDetail (id) {
      return await get(`/order/${id}`)
   },
+  async questionList (params) {
+     return await get(`/question/list`, { params })
+  },
 }

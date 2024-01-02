@@ -101,11 +101,11 @@
         <div class="qrcode">
           <canvas ref="canvas" id="canvas"></canvas>
           <div>
-            <el-input style="width: 250px" v-model="link[0]" disabled></el-input>
+            <el-input style="width: 250px" v-model="link" disabled></el-input>
             <span>
               <button
                 id="clip1"
-                :data-clipboard-text="link[0]"
+                :data-clipboard-text="link"
                 @click="handleClip"
               >复制</button>
             </span>
@@ -134,7 +134,7 @@ export default {
         name: '全部',
         id: '',
       }],
-      link: ['434365', ''],
+      link: null,
       searchData: {
         pageNum: 1,
         pageSize: 10,
@@ -195,26 +195,27 @@ export default {
       try {
         this.dialogVisible = true
         const timer = setTimeout(() => {
-          const canvas = document.getElementById('canvas')
-          console.log(canvas)
-          QRCode.toCanvas(document.getElementById('canvas'), 'https://www.baidu.com',{
+
+          clearTimeout(timer)
+        }, 400)
+        const res = await this.$api.order.createLink({
+          productId: v.id
+        })
+        this.link = res
+        this.$nextTick(() => {
+          QRCode.toCanvas(document.getElementById('canvas'), this.link, {
             width: 300,
             height: 300,
             margin: 0,
           }, (error) => {
             if (error) console.error(error)
           })
-          clearTimeout(timer)
-        }, 400)
-        const res = await this.$api.order.createLink({
-          productId: v.id
         })
-        console.log(res)
       } catch (e) {
         console.log(e)
       }
     },
-    async handleDel (v) {
+    /*async handleDel (v) {
       try {
         const res = await this.$api.order.deleteStatus({
           ids : [v.id],
@@ -225,11 +226,10 @@ export default {
           type: 'success'
         })
         this.handleSearch()
-        console.log(res)
       } catch (e) {
         console.log(e)
       }
-    },
+    },*/
     handleClip () {
       const clipboard = new ClipboardJS('#clip1');
       clipboard.on('success', (e) => {

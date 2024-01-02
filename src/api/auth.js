@@ -10,4 +10,8 @@ export default {
   async getRoles (params) {
     return await get('/role/list', { params })
   },
+
+  async listAll (params) {
+    return await get('/role/listAll', { params })
+  },
 }

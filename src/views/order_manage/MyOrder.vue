@@ -24,11 +24,11 @@
             <el-option v-for="v in payStatus" :key="v.name" :label="v.name" :value="v.id"></el-option>
           </el-select>
         </el-form-item>
-<!--        <el-form-item label="商品类目">
-          <el-select style="width: 215px" v-model="searchData.productCategoryId" clearable placeholder="商品类目">
+        <el-form-item label="商品类目">
+          <el-select style="width: 215px" v-model="                                                                  searchData.productCategoryId" clearable placeholder="商品类目">
             <el-option v-for="v in goodsCategory" :key="v.name" :label="v.name" :value="v.id"></el-option>
           </el-select>
-        </el-form-item>-->
+        </el-form-item>
         <el-form-item label="下单时间">
           <el-date-picker
             v-model="searchData.date1"
@@ -100,8 +100,8 @@
           label="下单时间">
         </el-table-column>
         <el-table-column
-            prop="payType"
-            label="支付方式">
+          prop="payType"
+          label="支付方式">
           <template slot-scope="scope">
             <span>
               {{
@@ -117,8 +117,8 @@
           label="销售员">
         </el-table-column>
         <el-table-column
-            prop="op"
-            label="操作">
+          prop="op"
+          label="操作">
           <template slot-scope="scope">
             <el-button type="text" @click="handleDetail(scope.row)">详情</el-button>
           </template>
@@ -138,6 +138,44 @@
         </el-pagination>
       </div>
     </div>
+    <el-dialog
+      title="订单详情"
+      :visible.sync="dialogVisible"
+      width="900px"
+      :destroy-on-close="true"
+      @close="dialogVisible = false"
+    >
+      <div class="qr-content" v-if="orderDetail">
+        <el-descriptions title="订单信息">
+          <el-descriptions-item label="订单号">{{ orderDetail.orderSn }}</el-descriptions-item>
+          <el-descriptions-item label="订单类型">{{ orderDetail.orderType ? '同步订单' : '正常订单' }}</el-descriptions-item>
+          <el-descriptions-item label="应付金额">{{ orderDetail.totalAmount }}</el-descriptions-item>
+          <el-descriptions-item label="下单时间">{{ orderDetail.createTime }}</el-descriptions-item>
+          <el-descriptions-item label="商品名称">{{ orderDetail.productName }}</el-descriptions-item>
+          <el-descriptions-item label="优惠信息">{{ orderDetail.couponAmount }}</el-descriptions-item>
+          <el-descriptions-item label="支付时间">{{ orderDetail.paymentTime }}</el-descriptions-item>
+          <el-descriptions-item label="销售员"></el-descriptions-item>
+          <el-descriptions-item label="实付金额">{{ orderDetail.payAmount }}</el-descriptions-item>
+        </el-descriptions>
+        <el-descriptions title="支付信息">
+          <el-descriptions-item label="支付流水号">{{ orderDetail.paySn }}</el-descriptions-item>
+          <el-descriptions-item label="支付方式">
+            {{ orderDetail.payType === 0 ? '未支付' : orderDetail.payType === 1 ? '支付宝' : '微信'}}
+          </el-descriptions-item>
+        </el-descriptions>
+        <el-descriptions title="买家信息">
+          <el-descriptions-item label="买家昵称"></el-descriptions-item>
+          <el-descriptions-item label="实名"></el-descriptions-item>
+          <el-descriptions-item label="实名手机号"></el-descriptions-item>
+          <el-descriptions-item label="注册手机号"></el-descriptions-item>
+          <el-descriptions-item label="身份证号码"></el-descriptions-item>
+          <el-descriptions-item label="openid"></el-descriptions-item>
+        </el-descriptions>
+      </div>
+      <span slot="footer" class="dialog-footer" style="display: flex;justify-content: center">
+        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -149,30 +187,36 @@ export default {
   name: 'MyOrder',
   data() {
     return {
-      userStatus: [{
+      dialogVisible: false,
+      userStatus: [
+        {
+          name: '全部',
+          id: '',
+        },{
+          name: '待付款',
+          id: 0,
+        },{
+          name: '已完成',
+          id: 1,
+        },
+      ],
+      payStatus: [
+        {
+          name: '全部',
+          id: '',
+        },{
+          name: '待付款',
+          id: 0,
+        },{
+          name: '已完成',
+          id: 1,
+        },
+      ],
+      goodsCategory: [{
         name: '全部',
         id: '',
-      },{
-        name: '待付款',
-        id: 0,
-      },{
-        name: '已完成',
-        id: 1,
-      },],
-      payStatus: [{
-        name: '全部',
-        id: '',
-      },{
-        name: '待付款',
-        id: 0,
-      },{
-        name: '已完成',
-        id: 1,
-      },],
-      /*goodsCategory: [{
-        name: '全部',
-        id: '',
-      }],*/
+      }],
+      orderDetail: null,
       searchData: {
         pageNum: 1,
         pageSize: 10,
@@ -193,11 +237,13 @@ export default {
   mixins: [ tableHeight ],
   async mounted() {
     this.handleList()
-    /*const res = await this.$api.order.productCategory({
+    // const res1 = await this.$api.order.questionList()
+    const res = await this.$api.order.productCategory({
       pageNum: 1,
       pageSize: 10000,
     })
-    this.goodsCategory = [...this.goodsCategory, ...res.list]*/
+    this.goodsCategory = [...this.goodsCategory, ...res.list]
+
   },
   methods: {
     handleSearch() {
@@ -218,7 +264,6 @@ export default {
         }
         delete newData.date1
         delete newData.date2
-        console.log(newData)
         const res = await this.$api.order.orderList(newData)
         this.loading = false
         this.total = Number(res.total)
@@ -247,12 +292,11 @@ export default {
     },
     async handleDetail (v) {
       try {
-        const res = await this.$api.order.orderDetail(v.id)
-        console.log(res)
+        this.dialogVisible = true
+        this.orderDetail = await this.$api.order.orderDetail(v.id)
       } catch (e) {
         console.log(e)
       }
-      console.log()
     }
   },
 }

@@ -2,7 +2,8 @@ import axios from 'axios'
 import { Notification } from 'element-ui'
 import router from '@/router'
 const instance = axios.create({
-  baseURL: 'http://192.168.1.63:8080',
+  // baseURL: '/order-admin/',
+  baseURL: 'http://192.168.1.79/order-admin',
   timeout: 10000,
   headers: {
     'content-type': 'application/json' // application/x-www-form-urlencoded multipart/form-data
@@ -34,13 +35,15 @@ instance.interceptors.response.use(function (response) {
     })
   }
   if (response.data.code === 401) {
-    // router.push('/login')
-    window.location.href = '/'
-    localStorage.removeItem('token')
+    // router.push('/login')'
+    if (window.location.href.indexOf('/login') === -1) {
+      window.location.href = '/'
+    }
     Notification({
       title: 'error',
       message: `${response.data.message}(401)`
     })
+    localStorage.removeItem('token')
   }
   return response.data.data
 }, function (error) {

@@ -106,7 +106,6 @@ export default {
     handleClearKeepAlive(v) {
       const { keepAliveRoutes } = this.$store.state
       const index = keepAliveRoutes.findIndex(k => k.componentName === v.componentName)
-      console.log(keepAliveRoutes, index)
       if (index === (keepAliveRoutes.length - 1)) {
         this.$store.commit('removeKeepAliveRoutes', index)
         // const r = this.$store.state.keepAliveRoutes

@@ -35,20 +35,19 @@ export default new Vuex.Store({
   },
   actions: {
     async getInfo({ commit }) {
-      // eslint-disable-next-line no-async-promise-executor
-      return new Promise(async (resolve) => {
-        try {
-          const res = await auth.getUserInfo()
-          const roleAuth = []
-          res.menus.forEach(v => {
-            roleAuth.push(v.name)
-          })
-          commit('changeRoleAuth', roleAuth)
-          resolve()
-        } catch (e) {
-          resolve()
-        }
-      })
+      try {
+        const res = await auth.getUserInfo()
+        const roleAuth = []
+        res.menus.forEach(v => {
+          roleAuth.push(v.name)
+        })
+        commit('changeRoleAuth', roleAuth)
+        commit('changeUserInfo', res)
+        return res
+      } catch (e) {
+        commit('changeRoleAuth', ['SaleGoods'])
+        return e
+      }
     },
   },
   modules: {

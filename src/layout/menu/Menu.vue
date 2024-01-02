@@ -16,8 +16,8 @@
 
 <script>
 import MenuItem from './MenuItem.vue'
+import {convertToTree} from "@/utils"
 // import MenuList from './menuList'
-// import M from './M.vue'
 export default {
   name: 'MenuP',
   data () {
@@ -56,15 +56,16 @@ export default {
     }*/
   },
   async mounted () {
-    const res = await this.$api.auth.getUserInfo()
-    const roleAuth = []
-    res.menus.forEach(v => {
-      roleAuth.push(v.name)
-    })
-    const menus = this.handleTree(res.menus)
+    const res = await this.$store.dispatch('getInfo')
+    // this.$api.auth.getUserInfo()
+    // const roleAuth = []
+    // res.menus.forEach(v => {
+    //   roleAuth.push(v.name)
+    // })
+    const menus = convertToTree(res.menus, '0')
     this.handleMenuName(menus)
-    this.$store.commit('changeUserInfo', res)
-    this.$store.commit('changeRoleAuth', roleAuth)
+    // this.$store.commit('changeRoleAuth', roleAuth)
+    // this.$store.commit('changeUserInfo', res)
     this.$store.commit('changeMenuList', menus)
     if (menus[0] && !menus[0].children) {
       this.$store.commit('addKeepAliveRoutes', menus[0])
@@ -74,15 +75,6 @@ export default {
     this.filterMenuValue(this.menuList)
   },
   methods: {
-    handleTree (data, parentId = '0') {
-      const tree = {};
-      data
-          .filter(item => item.parentId === parentId)
-          .forEach(item => {
-            tree[item.id] = { ...item, children: this.handleTree(data, item.id) };
-          });
-      return Object.values(tree);
-    },
     handleSelect (v) {
       if (this.$route.path === v.path) return
       if (v.componentName) {

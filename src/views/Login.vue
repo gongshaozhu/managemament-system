@@ -115,7 +115,6 @@ export default {
           try {
             const res = await this.$api.auth.login(this.loginForm)
             localStorage.setItem('token', `${res.tokenHead}${res.token}`)
-            // Cookies.set('name', 'value', { expires: 7 }) js-Cookies
             await this.$router.push('/')
             this.loading = false
           } catch (e) {
